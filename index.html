@@ -33,46 +33,43 @@
 </head>
 <body>
 
-  <h1>Parking Dashboard gaw ani janed pat ac</h1>
-  <h3>palo ka talaga bussingggggggggg ahahjjhahjs</h3>
+  <h1>Parking Dashboard</h1>
+  <h3>Status of Parking Slots</h3>
 
   <!-- Display Slots -->
-  <div id="slot1" class="slot"></div>
-  <div id="slot2" class="slot"></div>
+  <div id="slot1" class="slot">Loading...</div>
+  <div id="slot2" class="slot">Loading...</div>
 
   <script>
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "firebase/app";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-
     // Your web app's Firebase configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyDVSeIE2Ym46RwU90K4efW7FP1Jij5zkDo",
-        authDomain: "dashboard-cpe.firebaseapp.com",
-        databaseURL: "https://dashboard-cpe-default-rtdb.firebaseio.com",
-        projectId: "dashboard-cpe",
-        storageBucket: "dashboard-cpe.firebasestorage.app",
-        messagingSenderId: "897019090460",
-        appId: "1:897019090460:web:80ceb636b74cbbfd3cf1d9"
-        };
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+    var firebaseConfig = {
+      apiKey: "AIzaSyDVSeIE2Ym46RwU90K4efW7FP1Jij5zkDo",
+      authDomain: "dashboard-cpe.firebaseapp.com",
+      databaseURL: "https://dashboard-cpe-default-rtdb.firebaseio.com",
+      projectId: "dashboard-cpe",
+      storageBucket: "dashboard-cpe.firebasestorage.app",
+      messagingSenderId: "897019090460",
+      appId: "1:897019090460:web:80ceb636b74cbbfd3cf1d9"
+    };
 
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 
-    // Reference to the database
+    // Reference to the Firebase database
     var database = firebase.database();
 
     // Read data from the "slots" node in Firebase Realtime Database
     database.ref("/slots").on("value", function(snapshot) {
       var slots = snapshot.val();
       
-      // Update HTML with the data from Firebase
-      document.getElementById("slot1").innerHTML = `Slot 1: ${slots.slot1}`;
-      document.getElementById("slot2").innerHTML = `Slot 2: ${slots.slot2}`;
+      // Update the HTML with the slot data from Firebase
+      if (slots && slots.slot1 && slots.slot2) {
+        document.getElementById("slot1").innerHTML = `Slot 1: ${slots.slot1}`;
+        document.getElementById("slot2").innerHTML = `Slot 2: ${slots.slot2}`;
+      } else {
+        document.getElementById("slot1").innerHTML = "Slot 1: Data not available";
+        document.getElementById("slot2").innerHTML = "Slot 2: Data not available";
+      }
     });
   </script>
 
